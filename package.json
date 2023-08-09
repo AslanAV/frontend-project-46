@@ -1,0 +1,26 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "Diff generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AslanAV/frontend-project-46.git"
+  },
+  "author": "AslanAV",
+  "license": "MIT",
+  "type": "module",
+  "simple-git-hooks": {
+    "pre-push": "make lint"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "bugs": {
+    "url": "https://github.com/AslanAV/frontend-project-46/issues"
+  },
+  "homepage": "https://github.com/AslanAV/frontend-project-46#readme"
+}
