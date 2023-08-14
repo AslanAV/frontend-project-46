@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import run from "../index.js";
+import action from "../index.js";
 
 const program = new Command();
 
@@ -15,12 +15,12 @@ program
     .argument('<filepath2>')
     .option('-f, --format <type>', 'output format');
 
-const command = (filePaths, format) => {
-    run(filePaths, format);
+const command = (filePath1, filePath2, format) => {
+    action(filePath1, filePath2, format);
 }
 program.parse(process.argv);
 
-const { args } = program;
+const { args: [filePath1, filePath2] } = program;
 const options = program.opts();
 const { format } = options;
-command(args, format);
+command(filePath1, filePath2, format);
