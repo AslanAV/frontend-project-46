@@ -7,13 +7,17 @@ const getContentFromFiles = (filePath1, filePath2) => {
   return { content1, content2 };
 };
 
-const action = (filePath1, filePath2, format) => {
-  const { content1, content2 } = getContentFromFiles(filePath1, filePath2);
-
+const getKeysFromContent = (content1, content2) => {
   const keys1 = Object.keys(content1);
   const keys2 = Object.keys(content2);
   const keys = _.uniq([...keys1, ...keys2]);
   keys.sort();
+  return { keys1, keys2, keys };
+};
+
+const action = (filePath1, filePath2, format) => {
+  const { content1, content2 } = getContentFromFiles(filePath1, filePath2);
+  const { keys1, keys2, keys } = getKeysFromContent(content1, content2);
 
   const diffBody = keys.reduce((acc, key) => {
     const addContent2 = `  + ${key}: ${content2[key]}`;
