@@ -2,11 +2,10 @@ import * as fs from 'node:fs';
 import _ from 'lodash';
 
 const getContentFromFiles = (filePath1, filePath2) => {
-  const content1 = JSON.parse(fs.readFileSync(filePath1, "utf-8"));
-  const content2 = JSON.parse(fs.readFileSync(filePath2, "utf-8"));
+  const content1 = JSON.parse(fs.readFileSync(filePath1, 'utf-8'));
+  const content2 = JSON.parse(fs.readFileSync(filePath2, 'utf-8'));
   return { content1, content2 };
 };
-
 
 const action = (filePath1, filePath2, format) => {
   const { content1, content2 } = getContentFromFiles(filePath1, filePath2);
@@ -38,8 +37,8 @@ const action = (filePath1, filePath2, format) => {
     return acc;
   }, []);
 
-  const result = `{\n${diffBody.join('\n')}\n}`
-  console.log(result);
+  const result = `{\n${diffBody.join('\n')}\n}`;
+  console.log(result, format);
   return result;
 };
 
