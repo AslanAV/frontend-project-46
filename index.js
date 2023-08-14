@@ -1,10 +1,12 @@
 import * as fs from 'node:fs';
+import * as path from 'path';
 import _ from 'lodash';
+import getContent from './src/parsers.js';
 
-const getContentFromFiles = (filePath1, filePath2) => {
-  const content1 = JSON.parse(fs.readFileSync(filePath1, 'utf-8'));
-  const content2 = JSON.parse(fs.readFileSync(filePath2, 'utf-8'));
-  return { content1, content2 };
+const getContentFromFiles = (filePath) => {
+  const dataRow = fs.readFileSync(filePath, 'utf-8');
+  const extName = path.extname(filePath);
+  return getContent(dataRow, extName);
 };
 
 const getKeysFromContent = (content1, content2) => {
@@ -16,7 +18,8 @@ const getKeysFromContent = (content1, content2) => {
 };
 
 const action = (filePath1, filePath2, format) => {
-  const { content1, content2 } = getContentFromFiles(filePath1, filePath2);
+  const content1 = getContentFromFiles(filePath1);
+  const content2 = getContentFromFiles(filePath2);
   const { keys1, keys2, keys } = getKeysFromContent(content1, content2);
 
   const diffBody = keys.reduce((acc, key) => {
