@@ -13,7 +13,7 @@ program
 program
   .argument('<filepath1>')
   .argument('<filepath2>')
-  .option('-f, --format <type>', 'output format');
+  .option('-f, --format <type>', 'output format', 'stylish');
 
 const command = (filePath1, filePath2, format) => {
   action(filePath1, filePath2, format);
@@ -21,6 +21,5 @@ const command = (filePath1, filePath2, format) => {
 program.parse(process.argv);
 
 const { args: [filePath1, filePath2] } = program;
-const options = program.opts();
-const { format } = options;
+const { format } = program.opts();
 command(filePath1, filePath2, format);
