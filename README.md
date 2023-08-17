@@ -11,6 +11,9 @@
 ### Render format plain for diff two files
 [![asciicast](https://asciinema.org/a/pNPOnktLeJEJNMV6j6uJExeis.svg)](https://asciinema.org/a/pNPOnktLeJEJNMV6j6uJExeis)
 
+### Render format json for diff two files
+[![asciicast](https://asciinema.org/a/TfuV6rByh7j2xUx8LrC0T29oo.svg)](https://asciinema.org/a/TfuV6rByh7j2xUx8LrC0T29oo)
+
 ## Setup
 
 ```bash

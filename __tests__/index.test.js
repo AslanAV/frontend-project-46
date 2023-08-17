@@ -75,3 +75,33 @@ describe('Comparison YAML files in format "plain"', () => {
     expect(action(filePath1, filePath2, format)).toBe(expected);
   });
 });
+
+describe('Comparison JSON files in format "json"', () => {
+  beforeEach(() => {
+    filePath1 = getFixturePath('file1.json');
+    filePath2 = getFixturePath('file2.json');
+    format = 'json';
+
+    const resultPath = getFixturePath('jsonResult.txt');
+    expected = fs.readFileSync(resultPath, 'utf-8');
+  });
+
+  test('genDiff', () => {
+    expect(action(filePath1, filePath2, format)).toBe(expected);
+  });
+});
+
+describe('Comparison YAML files in format "json"', () => {
+  beforeEach(() => {
+    filePath1 = getFixturePath('file1.yaml');
+    filePath2 = getFixturePath('file2.yaml');
+    format = 'json';
+
+    const resultPath = getFixturePath('jsonResult.txt');
+    expected = fs.readFileSync(resultPath, 'utf-8');
+  });
+
+  test('genDiff', () => {
+    expect(action(filePath1, filePath2, format)).toBe(expected);
+  });
+});
