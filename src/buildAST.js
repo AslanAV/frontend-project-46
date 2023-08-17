@@ -1,5 +1,6 @@
-import _ from "lodash";
+import _ from 'lodash';
 
+const getValue = (tree, key) => tree[key];
 const getKeysFromContent = (content1, content2) => {
   const keys1 = Object.keys(content1);
   const keys2 = Object.keys(content2);
@@ -7,31 +8,39 @@ const getKeysFromContent = (content1, content2) => {
   keys.sort();
   return { keys1, keys2, keys };
 };
-const buildAST = (content1, content2, allKeys, keysContent1, keysContent2) => {
-  const iter = (content1, content2, keys, keys1, keys2) => {
-    return keys.reduce((acc, key) => {
-      if (keys1.includes(key) && keys2.includes(key)) {
-        if (content1[key] instanceof Object && content2[key] instanceof Object) {
-          const { keys1: subKeys1, keys2: subKeys2, keys: subKeys } = getKeysFromContent(content1[key], content2[key]);
-          acc[key] = { type: 'children', value: iter(content1[key], content2[key], subKeys, subKeys1, subKeys2) };
-        } else {
-          if (content1[key] === content2[key]) {
-            acc[key] = { type: 'unchanged', value: content1[key] };
-          } else {
-            acc[key] = { type: 'changed', value: content1[key], value2: content2[key] }
-          }
-        }
-      }
-      if (!keys1.includes(key)) {
-        acc[key] = { type: 'add', value: content2[key] };
-      }
-      if (!keys2.includes(key)) {
-        acc[key] = { type: 'delete', value: content1[key] };
-      }
-      return acc;
-    }, {});
+const buildAST = (content1, content2) => {
+  const {
+    keys: allKeys,
+    keys1: keysContent1,
+    keys2: keysContent2,
+  } = getKeysFromContent(content1, content2);
 
-  };
+  const iter = (tree1, tree2, keys, keys1, keys2) => keys.reduce((acc, key) => {
+    const value1 = getValue(tree1, key);
+    const value2 = getValue(tree2, key);
+
+    if (!keys1.includes(key)) {
+      acc[key] = { type: 'add', value: value2 };
+      return acc;
+    }
+    if (!keys2.includes(key)) {
+      acc[key] = { type: 'delete', value: value1 };
+      return acc;
+    }
+
+    if (value1 instanceof Object && value2 instanceof Object) {
+      acc[key] = { type: 'children', value: buildAST(value1, value2) };
+      return acc;
+    }
+
+    if (value1 !== value2) {
+      acc[key] = { type: 'changed', value: value1, value2 };
+      return acc;
+    }
+
+    acc[key] = { type: 'unchanged', value: value1 };
+    return acc;
+  }, {});
   return iter(content1, content2, allKeys, keysContent1, keysContent2);
 };
 

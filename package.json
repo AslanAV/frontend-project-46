@@ -17,7 +17,7 @@
   "license": "MIT",
   "type": "module",
   "simple-git-hooks": {
-    "pre-push": "make lint"
+    "pre-push": "make lint && make test"
   },
   "engines": {
     "node": ">=14"

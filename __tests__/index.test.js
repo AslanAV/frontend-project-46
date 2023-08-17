@@ -16,7 +16,7 @@ let filePath1;
 let filePath2;
 let expected;
 
-describe('Comparison JSON files', () => {
+describe('Comparison JSON files in format "stylish"', () => {
   beforeEach(() => {
     filePath1 = getFixturePath('file1.json');
     filePath2 = getFixturePath('file2.json');
@@ -31,7 +31,7 @@ describe('Comparison JSON files', () => {
   });
 });
 
-describe('Comparison YAML files', () => {
+describe('Comparison YAML files in format "stylish"', () => {
   beforeEach(() => {
     filePath1 = getFixturePath('file1.yaml');
     filePath2 = getFixturePath('file2.yaml');
