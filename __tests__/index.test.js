@@ -2,106 +2,75 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import * as path from 'path';
 import fs from 'node:fs';
-import {
-  beforeEach, describe, expect, test,
-} from '@jest/globals';
+import { describe, expect, test } from '@jest/globals';
 import action from '../index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
-let format;
-let filePath1;
-let filePath2;
-let expected;
+const getData = (fileName1, filename2, formatName, resultName) => {
+  const filePath1 = getFixturePath(fileName1);
+  const filePath2 = getFixturePath(filename2);
+  const format = formatName;
+
+  const resultPath = getFixturePath(resultName);
+  const expected = fs.readFileSync(resultPath, 'utf-8');
+  return {
+    filePath1, filePath2, format, expected,
+  };
+};
 
 describe('Comparison JSON files in format "stylish"', () => {
-  beforeEach(() => {
-    filePath1 = getFixturePath('file1.json');
-    filePath2 = getFixturePath('file2.json');
-    format = 'stylish';
-
-    const resultPath = getFixturePath('stylishResult.txt');
-    expected = fs.readFileSync(resultPath, 'utf-8');
-  });
-
   test('genDiff', () => {
+    const {
+      filePath1, filePath2, format, expected,
+    } = getData('file1.json', 'file2.json', 'stylish', 'stylishResult.txt');
     expect(action(filePath1, filePath2, format)).toBe(expected);
   });
 });
 
 describe('Comparison YAML files in format "stylish"', () => {
-  beforeEach(() => {
-    filePath1 = getFixturePath('file1.yaml');
-    filePath2 = getFixturePath('file2.yaml');
-    format = 'stylish';
-
-    const resultPath = getFixturePath('stylishResult.txt');
-    expected = fs.readFileSync(resultPath, 'utf-8');
-  });
-
   test('genDiff', () => {
+    const {
+      filePath1, filePath2, format, expected,
+    } = getData('file1.yaml', 'file2.yaml', 'stylish', 'stylishResult.txt');
     expect(action(filePath1, filePath2, format)).toBe(expected);
   });
 });
 
 describe('Comparison JSON files in format "plain"', () => {
-  beforeEach(() => {
-    filePath1 = getFixturePath('file1.json');
-    filePath2 = getFixturePath('file2.json');
-    format = 'plain';
-
-    const resultPath = getFixturePath('plainResult.txt');
-    expected = fs.readFileSync(resultPath, 'utf-8');
-  });
-
   test('genDiff', () => {
+    const {
+      filePath1, filePath2, format, expected,
+    } = getData('file1.json', 'file2.json', 'plain', 'plainResult.txt');
     expect(action(filePath1, filePath2, format)).toBe(expected);
   });
 });
 
 describe('Comparison YAML files in format "plain"', () => {
-  beforeEach(() => {
-    filePath1 = getFixturePath('file1.yaml');
-    filePath2 = getFixturePath('file2.yaml');
-    format = 'plain';
-
-    const resultPath = getFixturePath('plainResult.txt');
-    expected = fs.readFileSync(resultPath, 'utf-8');
-  });
-
   test('genDiff', () => {
+    const {
+      filePath1, filePath2, format, expected,
+    } = getData('file1.yaml', 'file2.yaml', 'plain', 'plainResult.txt');
     expect(action(filePath1, filePath2, format)).toBe(expected);
   });
 });
 
 describe('Comparison JSON files in format "json"', () => {
-  beforeEach(() => {
-    filePath1 = getFixturePath('file1.json');
-    filePath2 = getFixturePath('file2.json');
-    format = 'json';
-
-    const resultPath = getFixturePath('jsonResult.txt');
-    expected = fs.readFileSync(resultPath, 'utf-8');
-  });
-
   test('genDiff', () => {
+    const {
+      filePath1, filePath2, format, expected,
+    } = getData('file1.json', 'file2.json', 'json', 'jsonResult.txt');
     expect(action(filePath1, filePath2, format)).toBe(expected);
   });
 });
 
 describe('Comparison YAML files in format "json"', () => {
-  beforeEach(() => {
-    filePath1 = getFixturePath('file1.yaml');
-    filePath2 = getFixturePath('file2.yaml');
-    format = 'json';
-
-    const resultPath = getFixturePath('jsonResult.txt');
-    expected = fs.readFileSync(resultPath, 'utf-8');
-  });
-
-  test('genDiff', () => {
+  test('genDiff ./__fixtures__/file1.json ./__fixtures__/file2.json', () => {
+    const {
+      filePath1, filePath2, format, expected,
+    } = getData('file1.yaml', 'file2.yaml', 'json', 'jsonResult.txt');
     expect(action(filePath1, filePath2, format)).toBe(expected);
   });
 });

@@ -23,9 +23,7 @@ const normalizeValue = (value, depth) => {
         ? `{\n${iter(tree[key], deep + 1)}${indent}}\n`
         : `${tree[key]}\n`;
 
-      const line = `${indent}${key}: ${tail}`;
-      acc.push(line);
-      return acc;
+      return [...acc, `${indent}${key}: ${tail}`];
     }, []);
     return `${bodyOfLines.join('')}`;
   };
@@ -36,27 +34,25 @@ const buildFormatDiff = (diff) => {
   const iter = (AST, depth) => {
     const keysAST = Object.keys(AST);
     return keysAST.reduce((acc, key) => {
-      let line;
       const type = getType(AST[key]);
       const newValue = normalizeValue(getValue(AST[key]), depth + 1);
       const newValue2 = normalizeValue(getValue2(AST[key]), depth + 1);
 
       if (type === 'children') {
-        line = `${getIndent(depth, unchangedIndent)}${key}: {\n${iter(AST[key].value, depth + 1).join('')}${getIndent(depth, unchangedIndent)}}\n`;
+        return [...acc, `${getIndent(depth, unchangedIndent)}${key}: {\n${iter(AST[key].value, depth + 1).join('')}${getIndent(depth, unchangedIndent)}}\n`];
       }
       if (type === 'delete') {
-        line = `${getIndent(depth, deleteIndent)}${key}: ${newValue}\n`;
+        return [...acc, `${getIndent(depth, deleteIndent)}${key}: ${newValue}\n`];
       }
       if (type === 'add') {
-        line = `${getIndent(depth, addIndent)}${key}: ${newValue}\n`;
+        return [...acc, `${getIndent(depth, addIndent)}${key}: ${newValue}\n`];
       }
       if (type === 'unchanged') {
-        line = `${getIndent(depth, unchangedIndent)}${key}: ${newValue}\n`;
+        return [...acc, `${getIndent(depth, unchangedIndent)}${key}: ${newValue}\n`];
       }
       if (type === 'changed') {
-        line = `${getIndent(depth, deleteIndent)}${key}: ${newValue}\n${getIndent(depth, addIndent)}${key}: ${newValue2}\n`;
+        return [...acc, `${getIndent(depth, deleteIndent)}${key}: ${newValue}\n${getIndent(depth, addIndent)}${key}: ${newValue2}\n`];
       }
-      acc.push(line);
       return acc;
     }, []);
   };

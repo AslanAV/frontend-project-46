@@ -4,8 +4,9 @@ const getTreeValue = (tree, key) => tree[key];
 const getKeysFromContent = (content1, content2) => {
   const keys1 = Object.keys(content1);
   const keys2 = Object.keys(content2);
-  const keys = _.uniq([...keys1, ...keys2]);
-  keys.sort();
+  const uniqueKeys = _.uniq([...keys1, ...keys2]);
+  const keys = _.sortBy(uniqueKeys);
+
   return { keys1, keys2, keys };
 };
 const buildAST = (content1, content2) => {
@@ -20,26 +21,22 @@ const buildAST = (content1, content2) => {
     const value2 = getTreeValue(tree2, key);
 
     if (!keys1.includes(key)) {
-      acc[key] = { type: 'add', value: value2 };
-      return acc;
+      return _.set(acc, key, { type: 'add', value: value2 });
     }
+
     if (!keys2.includes(key)) {
-      acc[key] = { type: 'delete', value: value1 };
-      return acc;
+      return _.set(acc, key, { type: 'delete', value: value1 });
     }
 
     if (value1 instanceof Object && value2 instanceof Object) {
-      acc[key] = { type: 'children', value: buildAST(value1, value2) };
-      return acc;
+      return _.set(acc, key, { type: 'children', value: buildAST(value1, value2) });
     }
 
     if (value1 !== value2) {
-      acc[key] = { type: 'changed', value: value1, value2 };
-      return acc;
+      return _.set(acc, key, { type: 'changed', value: value1, value2 });
     }
 
-    acc[key] = { type: 'unchanged', value: value1 };
-    return acc;
+    return _.set(acc, key, { type: 'unchanged', value: value1 });
   }, {});
   return iter(content1, content2, allKeys, keysContent1, keysContent2);
 };

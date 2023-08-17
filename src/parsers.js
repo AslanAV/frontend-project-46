@@ -1,13 +1,14 @@
 import yaml from 'js-yaml';
 
 const getContent = (dataRow, extName) => {
-  let parse;
   if (extName === '.json') {
-    parse = JSON.parse;
-  } else if (extName === '.yaml' || extName === '.yml') {
-    parse = yaml.load;
+    return JSON.parse(dataRow);
   }
-  return parse(dataRow);
+
+  if (extName === '.yaml' || extName === '.yml') {
+    return yaml.load(dataRow);
+  }
+  return '';
 };
 
 export default getContent;
