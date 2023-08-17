@@ -51,7 +51,7 @@ const action = (filePath1, filePath2, format) => {
   const AST = buildAST(content1, content2, keys, keys1, keys2);
   // console.log(AST);
   const result = getFormatDiff(AST, format);
-  console.log(result);
+  // console.log(result);
   return result;
 };
 
