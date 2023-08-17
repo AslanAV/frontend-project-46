@@ -1,3 +1,5 @@
+import { getType, getValue, getValue2 } from '../buildAST.js';
+
 const shiftToTheLeft = 2;
 const spacesIndent = 4;
 const spaces = ' ';
@@ -5,7 +7,6 @@ const addIndent = '+ ';
 const deleteIndent = '- ';
 const unchangedIndent = '  ';
 
-const getType = (astBranch) => astBranch.type;
 const getIndent = (depth, typeIndent) => `${spaces.repeat(spacesIndent * depth - shiftToTheLeft)}${typeIndent}`;
 
 const normalizeValue = (value, depth) => {
@@ -37,8 +38,8 @@ const buildFormatDiff = (diff) => {
     return keysAST.reduce((acc, key) => {
       let line;
       const type = getType(AST[key]);
-      const newValue = normalizeValue(AST[key].value, depth + 1);
-      const newValue2 = normalizeValue(AST[key].value2, depth + 1);
+      const newValue = normalizeValue(getValue(AST[key]), depth + 1);
+      const newValue2 = normalizeValue(getValue2(AST[key]), depth + 1);
 
       if (type === 'children') {
         line = `${getIndent(depth, unchangedIndent)}${key}: {\n${iter(AST[key].value, depth + 1).join('')}${getIndent(depth, unchangedIndent)}}\n`;

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const getValue = (tree, key) => tree[key];
+const getTreeValue = (tree, key) => tree[key];
 const getKeysFromContent = (content1, content2) => {
   const keys1 = Object.keys(content1);
   const keys2 = Object.keys(content2);
@@ -16,8 +16,8 @@ const buildAST = (content1, content2) => {
   } = getKeysFromContent(content1, content2);
 
   const iter = (tree1, tree2, keys, keys1, keys2) => keys.reduce((acc, key) => {
-    const value1 = getValue(tree1, key);
-    const value2 = getValue(tree2, key);
+    const value1 = getTreeValue(tree1, key);
+    const value2 = getTreeValue(tree2, key);
 
     if (!keys1.includes(key)) {
       acc[key] = { type: 'add', value: value2 };
@@ -43,5 +43,9 @@ const buildAST = (content1, content2) => {
   }, {});
   return iter(content1, content2, allKeys, keysContent1, keysContent2);
 };
+
+export const getValue = (astBranch) => astBranch.value;
+export const getValue2 = (astBranch) => astBranch.value2;
+export const getType = (astBranch) => astBranch.type;
 
 export default buildAST;

@@ -16,7 +16,8 @@ program
   .option('-f, --format <type>', 'output format', 'stylish');
 
 const command = (filePath1, filePath2, format) => {
-  action(filePath1, filePath2, format);
+  const result = action(filePath1, filePath2, format);
+  console.log(result);
 };
 program.parse(process.argv);
 

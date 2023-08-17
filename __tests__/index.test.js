@@ -22,7 +22,7 @@ describe('Comparison JSON files in format "stylish"', () => {
     filePath2 = getFixturePath('file2.json');
     format = 'stylish';
 
-    const resultPath = getFixturePath('result.txt');
+    const resultPath = getFixturePath('stylishResult.txt');
     expected = fs.readFileSync(resultPath, 'utf-8');
   });
 
@@ -37,9 +37,38 @@ describe('Comparison YAML files in format "stylish"', () => {
     filePath2 = getFixturePath('file2.yaml');
     format = 'stylish';
 
-    const resultPath = getFixturePath('result.txt');
+    const resultPath = getFixturePath('stylishResult.txt');
     expected = fs.readFileSync(resultPath, 'utf-8');
-    // console.log('expected: ', expected);
+  });
+
+  test('genDiff', () => {
+    expect(action(filePath1, filePath2, format)).toBe(expected);
+  });
+});
+
+describe('Comparison JSON files in format "plain"', () => {
+  beforeEach(() => {
+    filePath1 = getFixturePath('file1.json');
+    filePath2 = getFixturePath('file2.json');
+    format = 'plain';
+
+    const resultPath = getFixturePath('plainResult.txt');
+    expected = fs.readFileSync(resultPath, 'utf-8');
+  });
+
+  test('genDiff', () => {
+    expect(action(filePath1, filePath2, format)).toBe(expected);
+  });
+});
+
+describe('Comparison YAML files in format "plain"', () => {
+  beforeEach(() => {
+    filePath1 = getFixturePath('file1.yaml');
+    filePath2 = getFixturePath('file2.yaml');
+    format = 'plain';
+
+    const resultPath = getFixturePath('plainResult.txt');
+    expected = fs.readFileSync(resultPath, 'utf-8');
   });
 
   test('genDiff', () => {

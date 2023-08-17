@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'path';
 import getContent from './src/parsers.js';
 import buildAST from './src/buildAST.js';
-import getFormatDiff from './src/formatter.js';
+import getFormatDiff from './src/formatters/index.js';
 
 const getContentFromFiles = (filePath) => {
   const dataRow = fs.readFileSync(filePath, 'utf-8');
